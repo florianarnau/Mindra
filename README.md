@@ -67,7 +67,7 @@ Elle regroupe en une interface fluide tout le processus de modélisation :
 
 ![Visualisation](assets/image1.png)
 
-![Visualisation](assets/image2.svg)
+![Visualisation](assets/image2.png)
 
 ---
 
