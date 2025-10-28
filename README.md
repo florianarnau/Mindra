@@ -162,4 +162,5 @@ Ce projet est distribué sous licence **MIT** — utilisation libre à des fins 
 **Florian Arnau**
 
 **Nom du projet :** Mindra  
+
 **Tagline :** *L'atelier visuel du Machine Learning*
