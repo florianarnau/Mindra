@@ -152,7 +152,8 @@ https://florianarnau-mindra.streamlit.app/
 
 ## Licence
 
-Ce projet est distribué sous licence **MIT** — utilisation libre à des fins éducatives ou personnelles. Aucune copie à des fins commercial autorisé !
+Ce projet est distribué sous licence **MIT** — utilisation libre à des fins éducatives ou personnelles. 
+Aucune copie à des fins commercial autorisé !
 
 ---
 
@@ -164,3 +165,4 @@ Ce projet est distribué sous licence **MIT** — utilisation libre à des fins 
 **Nom du projet :** Mindra  
 
 **Tagline :** *L'atelier visuel du Machine Learning*
+
