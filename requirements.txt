@@ -1,5 +1,15 @@
+# Core
 streamlit==1.31.1
 pandas==2.2.1
+
+# NumPy / SciPy / sklearn (compatibles Py 3.12)
 numpy==1.26.4
-altair==5.2.0
+scipy==1.11.4
 scikit-learn==1.4.2
+
+# Viz
+altair==5.2.0
+
+# Utilitaires
+protobuf==4.25.3
+pillow==10.2.0
