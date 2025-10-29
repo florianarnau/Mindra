@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mindra — L’atelier visuel du Machine Learning</title>
+  <title>Mindra — L'atelier visuel du Machine Learning</title>
   <meta name="description" content="Mindra est une application Streamlit pour explorer, préparer, entraîner et évaluer des modèles de ML sans coder." />
   <link rel="icon" href="favicon.ico" />
   <style>
@@ -22,6 +22,7 @@
     html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);font-family:Inter,Segoe UI,system-ui,-apple-system,Roboto,Arial,sans-serif;line-height:1.6}
     a{color:var(--brand);text-decoration:none}
     img{max-width:100%;display:block}
+    
     /* Header / Hero */
     header{
       background: radial-gradient(1200px 600px at 20% -20%, #7d3aa3 0%, var(--brand) 40%, #3a0d46 100%);
@@ -38,24 +39,65 @@
     .nav .spacer{flex:1}
     .nav a.btn-mini{
       color:#fff; border:1px solid rgba(255,255,255,.35); padding:8px 14px; border-radius:10px; font-weight:600;
+      transition: all .3s;
+    }
+    .nav a.btn-mini:hover{
+      background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.6);
     }
     .hero{max-width:1100px; margin:0 auto; padding:10px 0 6px; text-align:center}
-    .hero h1{font-size:2.4rem; margin:.2rem 0 .4rem}
-    .hero p.lead{opacity:.95; color:#f1e7f7; font-size:1.05rem; margin:0 auto 10px; max-width:820px}
+    .hero h1{font-size:2.4rem; margin:.2rem 0 .4rem; font-weight:900; letter-spacing:-.5px}
+    .hero p.lead{opacity:.95; color:#f1e7f7; font-size:1.05rem; margin:0 auto 10px; max-width:820px; line-height:1.7}
     .cta{display:flex; gap:14px; justify-content:center; margin:14px 0 8px}
     .btn{
       display:inline-block; padding:13px 20px; border-radius:12px; font-weight:700;
       background:#fff; color:var(--brand); box-shadow:var(--shadow);
+      transition: all .3s; position:relative; overflow:hidden;
+    }
+    .btn:hover{
+      transform: translateY(-2px); box-shadow:0 8px 30px rgba(0,0,0,.15);
     }
     .btn.secondary{
       background:transparent; color:#fff; border:1px solid rgba(255,255,255,.4)
     }
-    .note{font-size:.9rem; color:#e8d6f3}
+    .btn.secondary:hover{
+      background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.7);
+    }
+    .note{font-size:.9rem; color:#e8d6f3; opacity:.9}
+    
+    /* Stats bar */
+    .stats-bar{
+      background:rgba(255,255,255,.08); border-radius:12px; padding:16px 20px; margin:20px auto 0;
+      max-width:700px; display:flex; justify-content:space-around; gap:20px; flex-wrap:wrap;
+    }
+    .stat-item{text-align:center}
+    .stat-item .number{font-size:1.8rem; font-weight:900; display:block; margin-bottom:2px}
+    .stat-item .label{font-size:.85rem; opacity:.85}
+    
     /* Container */
     .container{max-width:1100px; margin:28px auto; padding:0 20px}
-    /* Tabs (produit) */
+    
+    /* Features highlight */
+    .features-highlight{
+      background:linear-gradient(135deg, #f8f4fb 0%, #fff 100%);
+      border-radius:var(--radius); padding:30px 24px; margin:30px 0;
+      border:1px solid var(--border); box-shadow:var(--shadow);
+    }
+    .features-highlight h2{margin:0 0 20px; color:var(--brand); font-size:1.8rem}
+    .feature-grid{
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px;
+    }
+    .feature-item{
+      display:flex; gap:12px; align-items:flex-start;
+    }
+    .feature-icon{
+      font-size:1.8rem; flex-shrink:0;
+    }
+    .feature-item h3{margin:0 0 4px; font-size:1.05rem; color:var(--txt)}
+    .feature-item p{margin:0; color:var(--muted); font-size:.9rem; line-height:1.5}
+    
+    /* Tabs */
     .tabs{
-      margin-top:20px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow);
+      margin-top:30px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow);
     }
     .tab-head{
       display:flex; flex-wrap:wrap; gap:4px; border-bottom:1px solid var(--border); padding:8px;
@@ -64,40 +106,140 @@
     }
     .tab-btn{
       appearance:none; border:1px solid var(--border); background:#fff; padding:10px 14px; border-radius:10px; cursor:pointer;
-      font-weight:700; color:#4a145d;
+      font-weight:700; color:#4a145d; transition:all .3s;
     }
-    .tab-btn.active{ background: var(--brand); color:#fff; border-color:transparent; }
-    .tab-pane{ display:none; padding:18px; }
+    .tab-btn:hover{
+      background:#f8f4fb; border-color:var(--brand);
+    }
+    .tab-btn.active{ 
+      background: var(--brand); color:#fff; border-color:transparent; 
+    }
+    .tab-pane{ display:none; padding:18px; animation:fadeIn .4s; }
     .tab-pane.active{ display:block; }
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(10px)}
+      to{opacity:1; transform:translateY(0)}
+    }
     .grid{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:8px
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-top:8px
     }
     .card{
-      background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow)
+      background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow);
+      transition:all .3s;
     }
-    .card h3{margin-top:0}
+    .card:hover{
+      transform:translateY(-4px); box-shadow:0 12px 30px rgba(86,23,96,.15);
+    }
+    .card h3{margin-top:0; color:var(--brand)}
     .muted{color:var(--muted)}
     .kpi{display:flex; gap:14px; align-items:center; margin:12px 0}
     .kpi .dot{width:10px;height:10px;border-radius:999px;background:var(--brand)}
     .chip{display:inline-block; padding:4px 10px; border-radius:999px; background:#f3e8fa; color:#4a145d; font-weight:700; font-size:.8rem; margin-right:8px}
+    
+    /* Tech Stack */
+    .tech-stack{
+      margin:40px 0; text-align:center;
+    }
+    .tech-stack h2{color:var(--brand); margin-bottom:20px}
+    .tech-grid{
+      display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:20px;
+    }
+    .tech-badge{
+      background:#fff; border:1px solid var(--border); border-radius:10px; 
+      padding:10px 16px; font-weight:700; color:var(--brand); font-size:.9rem;
+      box-shadow:var(--shadow); transition:all .3s;
+    }
+    .tech-badge:hover{
+      transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.1);
+    }
+    
     /* Pricing */
-    .pricing{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:24px }
-    .price-card{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow) }
-    .price-card h3{margin-top:0}
-    .price{ font-size:2rem; font-weight:800 }
-    .strike{ text-decoration:line-through; opacity:.6; font-weight:600; margin-left:6px }
-    .features{ list-style:none; padding:0; margin:14px 0 0}
-    .features li{ margin:8px 0; display:flex; gap:10px; align-items:flex-start }
-    .features li::before{ content:"✓"; color:#13a10e; font-weight:800; margin-top:2px }
-    .btn-wide{ display:block; text-align:center; margin-top:14px; padding:12px 18px; border-radius:12px; background:var(--brand); color:#fff; font-weight:800 }
-    .btn-wide.alt{ background:#fff; color:var(--brand); border:1px solid var(--brand) }
+    .pricing-section{
+      margin:50px 0; padding:40px 0; background:linear-gradient(135deg, #f8f4fb 0%, #fff 100%);
+      border-radius:var(--radius);
+    }
+    .pricing-section h2{text-align:center; color:var(--brand); margin-bottom:8px}
+    .pricing-section .subtitle{text-align:center; color:var(--muted); margin-bottom:30px}
+    .pricing{ display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; padding:0 20px }
+    .price-card{ 
+      background:var(--card); border:2px solid var(--border); border-radius:var(--radius); 
+      padding:28px; box-shadow:var(--shadow); transition:all .3s; position:relative;
+    }
+    .price-card:hover{
+      transform:translateY(-8px); box-shadow:0 15px 40px rgba(86,23,96,.2);
+    }
+    .price-card.featured{
+      border-color:var(--brand); position:relative;
+    }
+    .price-card.featured::before{
+      content:"Recommandé"; position:absolute; top:-12px; right:20px;
+      background:var(--brand); color:#fff; padding:4px 12px; border-radius:6px;
+      font-size:.75rem; font-weight:700;
+    }
+    .price-card h3{margin:0 0 10px; font-size:1.5rem; color:var(--brand)}
+    .price{ font-size:2.2rem; font-weight:900; margin:10px 0 }
+    .price .period{font-size:1rem; font-weight:600; color:var(--muted)}
+    .strike{ text-decoration:line-through; opacity:.5; font-weight:600; margin-left:8px; font-size:1.5rem }
+    .features{ list-style:none; padding:0; margin:20px 0}
+    .features li{ margin:10px 0; display:flex; gap:10px; align-items:flex-start }
+    .features li::before{ content:"✓"; color:#13a10e; font-weight:900; margin-top:2px; font-size:1.1rem }
+    .btn-wide{ 
+      display:block; text-align:center; margin-top:20px; padding:14px 20px; 
+      border-radius:12px; background:var(--brand); color:#fff; font-weight:800;
+      transition:all .3s;
+    }
+    .btn-wide:hover{
+      background:var(--brand-2); transform:translateY(-2px); box-shadow:0 8px 25px rgba(86,23,96,.3);
+    }
+    .btn-wide.alt{ 
+      background:#fff; color:var(--brand); border:2px solid var(--brand) 
+    }
+    .btn-wide.alt:hover{
+      background:var(--brand); color:#fff;
+    }
+    
     /* FAQ */
-    .faq{ margin-top:26px }
-    details{ background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin:10px 0; box-shadow:var(--shadow) }
-    summary{ cursor:pointer; font-weight:800; color:#3a0d46 }
+    .faq{ margin-top:40px }
+    .faq h2{color:var(--brand); margin-bottom:20px}
+    details{ 
+      background:var(--card); border:1px solid var(--border); border-radius:12px; 
+      padding:14px 18px; margin:12px 0; box-shadow:var(--shadow);
+      transition:all .3s;
+    }
+    details:hover{
+      box-shadow:0 8px 25px rgba(0,0,0,.12);
+    }
+    details[open]{
+      border-color:var(--brand);
+    }
+    summary{ 
+      cursor:pointer; font-weight:800; color:#3a0d46; list-style:none;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    summary::-webkit-details-marker{display:none}
+    summary::after{
+      content:"›"; font-size:1.5rem; transition:transform .3s; color:var(--brand);
+      transform:rotate(90deg);
+    }
+    details[open] summary::after{
+      transform:rotate(270deg);
+    }
+    details p{margin:12px 0 0; padding-left:8px; color:var(--muted)}
+    
+    /* CTA Section */
+    .cta-section{
+      background:linear-gradient(135deg, var(--brand) 0%, #3a0d46 100%);
+      color:#fff; border-radius:var(--radius); padding:50px 30px;
+      text-align:center; margin:50px 0; box-shadow:0 10px 40px rgba(86,23,96,.3);
+    }
+    .cta-section h2{color:#fff; font-size:2rem; margin-bottom:12px}
+    .cta-section p{font-size:1.1rem; opacity:.95; margin-bottom:25px; max-width:600px; margin-left:auto; margin-right:auto}
+    
     /* Footer */
     footer{ margin:50px 0 30px; text-align:center; color:#777 }
     footer .sep{ height:1px; background:var(--border); margin:28px auto; max-width:1100px }
+    footer img{margin:0 auto 12px; opacity:.9}
+    
     /* Responsive */
     @media (max-width: 900px){
       .grid{ grid-template-columns:1fr }
@@ -106,6 +248,9 @@
       .hero h1{ font-size:2rem }
       .cta{ flex-direction:column; align-items:center }
       .btn{ width:100%; max-width:380px }
+      .stats-bar{flex-direction:column; gap:12px}
+      .tab-head{justify-content:center}
+      .feature-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -117,20 +262,71 @@
       <img src="logo.png" alt="Mindra" class="logo">
       <div class="brand">Mindra</div>
       <div class="spacer"></div>
-      <a class="btn-mini" href="https://github.com/florianarnau/Mindra" target="_blank">Projet GitHub</a>
+      <a class="btn-mini" href="https://github.com/florianarnau/Mindra" target="_blank">GitHub</a>
     </div>
     <div class="hero">
-      <h1>L’atelier visuel du Machine Learning</h1>
+      <h1>L'atelier visuel du Machine Learning</h1>
       <p class="lead">Explorez, préparez, entraînez et évaluez vos modèles en quelques clics — sans écrire une ligne de code.</p>
       <div class="cta">
-        <a class="btn" href="https://florianarnau-mindra.streamlit.app/" target="_blank">🚀 Lancer l’application</a>
-        <a class="btn secondary" href="https://github.com/florianarnau/Mindra" target="_blank">📦 Voir le dépôt</a>
+        <a class="btn" href="https://florianarnau-mindra.streamlit.app/" target="_blank">🚀 Lancer l'application</a>
+        <a class="btn secondary" href="#tabs">📊 Découvrir</a>
       </div>
-      <div class="note">Compatible Python 3.10+ — Interface Streamlit</div>
+      <div class="note">Compatible Python 3.10+ • Interface Streamlit</div>
+      
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="number">4</span>
+          <span class="label">Algorithmes ML</span>
+        </div>
+        <div class="stat-item">
+          <span class="number">100%</span>
+          <span class="label">No-code</span>
+        </div>
+        <div class="stat-item">
+          <span class="number">5</span>
+          <span class="label">Métriques clés</span>
+        </div>
+      </div>
     </div>
   </header>
 
   <main class="container">
+
+    <!-- Features Highlight -->
+    <section class="features-highlight">
+      <h2>Pipeline complet de bout en bout</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-icon">📊</div>
+          <div>
+            <h3>Exploration interactive</h3>
+            <p>Statistiques, corrélations, visualisations Altair et détection automatique des anomalies</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🔧</div>
+          <div>
+            <h3>Préparation intelligente</h3>
+            <p>Imputation, normalisation, outliers IQR, sélection de features et discrétisation</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🤖</div>
+          <div>
+            <h3>Modélisation simplifiée</h3>
+            <p>4 modèles ML, validation croisée, équilibrage auto et export pipeline .pkl</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📈</div>
+          <div>
+            <h3>Évaluation complète</h3>
+            <p>Métriques, matrice de confusion, ROC AUC et détection d'overfitting train/test</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Onglets produit -->
     <section class="tabs" id="tabs">
@@ -172,11 +368,11 @@
           </div>
           <div class="card">
             <h3>Répartition des classes</h3>
-            <p class="muted">Suivez l’équilibre des classes pour anticiper les effets sur la stratification et la validation croisée.</p>
+            <p class="muted">Suivez l'équilibre des classes pour anticiper les effets sur la stratification et la validation croisée.</p>
           </div>
           <div class="card">
             <h3>Focus données</h3>
-            <p class="muted">Comprenez la structure de votre dataset avant d’entraîner vos modèles.</p>
+            <p class="muted">Comprenez la structure de votre dataset avant d'entraîner vos modèles.</p>
           </div>
         </div>
         <img src="assets/image1.png" alt="Aperçu Mindra - Visualisations" style="margin-top:16px;border-radius:12px;box-shadow:var(--shadow)">
@@ -188,11 +384,11 @@
           <div class="card">
             <span class="chip">Modèles</span>
             <h3>Entraînez en quelques clics</h3>
-            <p class="muted">Régression logistique, Random Forest, KNN, SVM (RBF). Hyperparamètres ajustables, <b>class_weight='balanced'</b>, et <b>validation croisée</b> jusqu’à 5-fold.</p>
+            <p class="muted">Régression logistique, Random Forest, KNN, SVM (RBF). Hyperparamètres ajustables, <b>class_weight='balanced'</b>, et <b>validation croisée</b> jusqu'à 5-fold.</p>
           </div>
           <div class="card">
             <h3>Pipeline scikit-learn</h3>
-            <p class="muted">ColumnTransformer (num/cat) + SelectKBest (optionnel) + modèle. <b>Export .pkl</b> du pipeline complet, prêt à l’emploi.</p>
+            <p class="muted">ColumnTransformer (num/cat) + SelectKBest (optionnel) + modèle. <b>Export .pkl</b> du pipeline complet, prêt à l'emploi.</p>
           </div>
           <div class="card">
             <h3>Reproductible</h3>
@@ -212,7 +408,7 @@
           </div>
           <div class="card">
             <h3>Sur-apprentissage</h3>
-            <p class="muted">Comparaison <b>train vs test</b> : alerte si l’écart dépasse le seuil. Gardez le contrôle sur la généralisation.</p>
+            <p class="muted">Comparaison <b>train vs test</b> : alerte si l'écart dépasse le seuil. Gardez le contrôle sur la généralisation.</p>
           </div>
           <div class="card">
             <h3>Décision</h3>
@@ -223,62 +419,94 @@
       </div>
     </section>
 
+    <!-- Tech Stack -->
+    <section class="tech-stack">
+      <h2>Technologies modernes</h2>
+      <div class="tech-grid">
+        <span class="tech-badge">Python 3.10+</span>
+        <span class="tech-badge">Streamlit</span>
+        <span class="tech-badge">Scikit-learn</span>
+        <span class="tech-badge">Pandas</span>
+        <span class="tech-badge">NumPy</span>
+        <span class="tech-badge">Altair</span>
+        <span class="tech-badge">Pickle</span>
+      </div>
+    </section>
+
     <!-- Pricing -->
-    <section style="margin-top:30px">
-      <h2 style="margin:0 0 6px">Tarifs</h2>
-      <p class="muted" style="margin-top:0">Commencez gratuitement. Passez à Pro quand vous avez besoin d’aller plus loin.</p>
+    <section class="pricing-section">
+      <h2>Tarifs simples et transparents</h2>
+      <p class="subtitle">Commencez gratuitement. Passez à Pro quand vous avez besoin d'aller plus loin.</p>
       <div class="pricing">
         <!-- Free -->
         <div class="price-card">
           <h3>Gratuit</h3>
-          <div class="price">0€ <span class="muted">/ utilisateur</span></div>
+          <div class="price">0€ <span class="period">/ utilisateur</span></div>
           <ul class="features">
-            <li>Exploration & visualisations</li>
-            <li>Préprocessing complet (imputation, normalisation, IQR)</li>
+            <li>Exploration & visualisations complètes</li>
+            <li>Préprocessing avancé (imputation, normalisation, IQR)</li>
             <li>4 modèles de classification</li>
+            <li>Validation croisée jusqu'à 5-fold</li>
             <li>Export du pipeline .pkl</li>
+            <li>Métriques & matrice de confusion</li>
           </ul>
           <a class="btn-wide alt" href="https://florianarnau-mindra.streamlit.app/" target="_blank">Utiliser maintenant</a>
         </div>
         <!-- Pro -->
-        <div class="price-card" style="border:2px solid var(--brand)">
-          <h3>Pro <span class="chip" style="margin-left:8px;background:#e9dbf2">à venir</span></h3>
-          <div class="price">9€ <span class="strike">19€</span> <span class="muted">/ utilisateur</span></div>
+        <div class="price-card featured">
+          <h3>Pro <span class="chip" style="margin-left:8px;background:#e9dbf2">Bientôt</span></h3>
+          <div class="price">9€ <span class="strike">19€</span> <span class="period">/ utilisateur</span></div>
           <ul class="features">
-            <li>AutoCV & recherche d’hyperparamètres</li>
-            <li>Explicabilité (importance avancée, SHAP*)</li>
-            <li>Support de modèles supplémentaires (XGBoost, LightGBM*)</li>
-            <li>Import/Export projets & presets</li>
+            <li>Tout du plan Gratuit</li>
+            <li>AutoCV & recherche d'hyperparamètres automatique</li>
+            <li>Explicabilité avancée (SHAP, importance features)</li>
+            <li>Modèles supplémentaires (XGBoost, LightGBM)</li>
+            <li>Import/Export de projets & presets</li>
+            <li>Support prioritaire</li>
           </ul>
-          <a class="btn-wide" href="mailto:contact@exemple.com">Me prévenir</a>
-          <p class="muted" style="font-size:.85rem;margin-top:8px">* fonctionnalités prévues</p>
+          <a class="btn-wide" href="mailto:contact@exemple.com">Me prévenir du lancement</a>
         </div>
       </div>
     </section>
 
     <!-- FAQ -->
     <section class="faq">
-      <h2 style="margin:0 0 6px">FAQ</h2>
-      <details>
-        <summary>GitHub Pages peut-il héberger l’application ?</summary>
-        <p>Non. GitHub Pages sert uniquement pour cette <b>page vitrine statique</b>. L’application exécutable tourne sur <b>Streamlit Cloud</b>.</p>
-      </details>
+      <h2>Questions fréquentes</h2>
       <details>
         <summary>Quels jeux de données sont compatibles ?</summary>
-        <p>Tous les CSV avec une <b>colonne cible</b> (catégorielle ou numérique si vous activez la <b>discrétisation</b>), et des colonnes numériques/catégorielles.</p>
+        <p>Tous les CSV avec une <b>colonne cible</b> (catégorielle ou numérique si vous activez la discrétisation), et des colonnes numériques/catégorielles. Le format doit respecter les standards pandas.</p>
       </details>
       <details>
-        <summary>Puis-je ajouter d’autres modèles ?</summary>
-        <p>Oui, côté application : c’est un pipeline scikit-learn. Vous pouvez étendre la liste des estimateurs et améliorer les métriques.</p>
+        <summary>Puis-je ajouter d'autres modèles ?</summary>
+        <p>Oui ! L'application utilise des pipelines scikit-learn standard. Vous pouvez fork le projet GitHub et étendre la liste des estimateurs disponibles.</p>
       </details>
+      <details>
+        <summary>Comment fonctionne l'export du pipeline ?</summary>
+        <p>Le pipeline complet (preprocessing + modèle) est exporté au format .pkl via pickle. Vous pouvez le réimporter dans n'importe quel environnement Python pour faire des prédictions.</p>
+      </details>
+      <details>
+        <summary>L'application est-elle open source ?</summary>
+        <p>Oui, le code est disponible sur GitHub sous licence MIT. Vous êtes libre de l'utiliser, le modifier et le partager à des fins éducatives ou personnelles.</p>
+      </details>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <h2>Prêt à transformer vos données ?</h2>
+      <p>Essayez Mindra gratuitement et créez votre premier modèle de Machine Learning en quelques minutes.</p>
+      <div class="cta">
+        <a class="btn" href="https://florianarnau-mindra.streamlit.app/" target="_blank" style="background:#fff; color:var(--brand)">Lancer l'application</a>
+        <a class="btn secondary" href="https://github.com/florianarnau/Mindra" target="_blank">Voir le code source</a>
+      </div>
     </section>
 
   </main>
 
   <footer>
     <div class="sep"></div>
-    <img src="logo.png" alt="Mindra" style="width:36px; margin:0 auto 8px; border-radius:8px">
-    <div>© 2025 Mindra — Développé par Florian Arnau</div>
+    <img src="logo.png" alt="Mindra" style="width:36px; border-radius:8px">
+    <div><strong>Mindra</strong> — Développé par Florian Arnau</div>
+    <div style="margin-top:8px; font-size:.85rem">© 2025 Mindra • Licence MIT</div>
   </footer>
 
   <script>
@@ -294,6 +522,19 @@
         document.getElementById(id).classList.add('active');
         // scroll into view on mobile
         document.getElementById('tabs').scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href !== '#') {
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
       });
     });
   </script>
