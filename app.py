@@ -443,7 +443,7 @@ with tabs_3:
         dist = pd.DataFrame({"train": _counts(y_train), "test": _counts(y_test)}).fillna(0).astype(int)
         st.dataframe(dist)
 
-    if st.button("🚀 Entraîner le modèle"):
+    if st.button("Entraîner le modèle"):
         model.fit(X_train, y_train)
         st.success("Modèle entraîné !")
 
@@ -461,7 +461,7 @@ with tabs_3:
         train_f1 = f1_score(y_train, train_pred, average="weighted", zero_division=0)
         test_f1 = f1_score(y_test, test_pred, average="weighted", zero_division=0)
 
-        st.markdown("### 🔎 Vérification overfitting")
+        st.markdown("### Vérification overfitting")
         cA, cB, cC, cD = st.columns(4)
         cA.metric("Accuracy (train)", f"{train_acc:.3f}")
         cB.metric("Accuracy (test)", f"{test_acc:.3f}")
