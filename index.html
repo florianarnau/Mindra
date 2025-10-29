@@ -1,132 +1,115 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Mindra — L’atelier visuel du Machine Learning</title>
-  <meta name="description" content="Mindra : page vitrine légère et moderne. Explorez, préparez, entraînez et évaluez vos modèles ML sans coder." />
+  <meta name="description" content="Mindra : explorez, préparez, entraînez et évaluez vos modèles de Machine Learning sans coder." />
   <link rel="icon" href="favicon.ico" />
   <style>
     :root{
-      --bg:#fcfbfd;
+      --bg:#f8f7fb;
       --card:#ffffff;
-      --txt:#17151a;
-      --muted:#6b6473;
-      --brand:#5d1a73;       /* violette + sobre */
-      --brand-2:#7a2b96;
-      --line:#ece7f1;
-      --shadow:0 6px 24px rgba(23,21,26,.06);
-      --radius:14px;
-      --max:1024px;
+      --ink:#121015;
+      --muted:#6f6a78;
+      --brand:#561760;
+      --brand-2:#7c2691;
+      --line:#ece8f2;
+      --success:#17a457;
+      --shadow:0 10px 30px rgba(16, 8, 24, .08);
+      --radius:16px;
+      --max:1120px;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;line-height:1.6}
-    img{max-width:100%;display:block}
-    a{color:var(--brand);text-decoration:none}
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0; padding:0; background:var(--bg); color:var(--ink);
+      font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif; line-height:1.6}
+    img{max-width:100%; display:block}
+    a{color:inherit; text-decoration:none}
     .container{max-width:var(--max); margin:0 auto; padding:0 20px}
-    /* NAV + HERO COMPACTS */
-    .nav{
-      position:sticky; top:0; z-index:50; background:rgba(255,255,255,.8); backdrop-filter:saturate(180%) blur(8px);
-      border-bottom:1px solid var(--line);
-    }
-    .nav-inner{display:flex; align-items:center; gap:14px; height:56px}
+
+    /* NAV */
+    .nav{position:sticky; top:0; z-index:30; backdrop-filter:saturate(140%) blur(8px);
+      background:rgba(255,255,255,.75); border-bottom:1px solid var(--line)}
+    .nav-inner{height:64px; display:flex; align-items:center; gap:14px}
     .logo{width:28px; height:28px; border-radius:8px}
     .brand{font-weight:800; letter-spacing:.2px}
     .spacer{flex:1}
-    .nav a.btn-mini{
-      color:var(--brand); border:1px solid var(--line); padding:6px 12px; border-radius:10px; font-weight:600; background:#fff;
-      transition:all .2s;
+    .nav a.link{padding:8px 12px; color:#3b3342; border-radius:10px}
+    .nav a.btn{padding:10px 14px; background:var(--brand); color:#fff; border-radius:12px;
+      font-weight:700; box-shadow:var(--shadow); transition:transform .15s ease, box-shadow .15s ease}
+    .nav a.btn:hover{transform:translateY(-1px); box-shadow:0 12px 28px rgba(86,23,96,.2)}
+
+    /* HERO */
+    .hero{padding:72px 0 36px}
+    .hero .badge{
+      display:inline-block; padding:6px 12px; border-radius:999px; background:#efe8f5; color:#442052; font-weight:700; font-size:.8rem
     }
-    .nav a.btn-mini:hover{box-shadow:0 4px 14px rgba(0,0,0,.08); transform:translateY(-1px)}
-    .hero{
-      padding:38px 0 24px;
-    }
-    .hero h1{
-      font-size:clamp(1.6rem, 3.6vw, 2.2rem); margin:.2rem 0 .35rem; font-weight:900; letter-spacing:-.4px; text-align:center;
-    }
-    .hero p.lead{
-      text-align:center; color:#4c4454; margin:0 auto 14px; max-width:760px; line-height:1.7;
-    }
-    .cta{
-      display:flex; gap:10px; justify-content:center; margin:12px 0 0;
-    }
+    .hero h1{margin:14px 0 10px; font-size:clamp(28px, 4.2vw, 44px); line-height:1.12; letter-spacing:-.6px}
+    .hero p.lead{margin:0 auto; max-width:760px; color:#4c4454; font-size:1.05rem}
+    .cta{display:flex; gap:12px; justify-content:center; margin:18px 0 0}
     .btn{
-      display:inline-block; padding:11px 16px; border-radius:12px; font-weight:700; border:1px solid var(--line); background:#fff; color:var(--brand);
-      box-shadow:var(--shadow); transition:transform .15s ease, box-shadow .15s ease;
+      display:inline-block; padding:12px 18px; border-radius:12px; font-weight:800; border:1px solid var(--line);
+      background:#fff; color:var(--brand); box-shadow:var(--shadow); transition:transform .15s ease, box-shadow .15s ease
     }
-    .btn:hover{transform:translateY(-1px); box-shadow:0 10px 26px rgba(23,21,26,.08)}
+    .btn:hover{transform:translateY(-1px); box-shadow:0 14px 34px rgba(16,8,24,.12)}
     .btn.primary{background:var(--brand); color:#fff; border-color:transparent}
     .btn.primary:hover{background:var(--brand-2)}
-    /* FEATURE STRIP (3 points) */
-    .strip{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:18px auto 0; max-width:var(--max);
+    .hero-illustration{
+      margin:26px auto 0; max-width:980px; background:linear-gradient(180deg,#ffffff 0%, #fbf9ff 100%);
+      border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:14px
     }
-    .pill{
-      background:#fff; border:1px solid var(--line); border-radius:999px; padding:10px 12px; text-align:center; font-weight:600; color:#3c3643;
-      box-shadow:var(--shadow);
-    }
-    @media (max-width: 820px){ .strip{grid-template-columns:1fr; padding:0 20px} }
-    /* SECTION CARDS */
-    .section{padding:22px 0}
-    .section h2{font-size:1.3rem; margin:0 0 8px; color:#322a39}
-    .section .sub{color:var(--muted); margin:0 0 16px}
+
+    /* VALUE STRIP */
+    .strip{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:26px 0 0}
+    .pill{background:#fff; border:1px solid var(--line); border-radius:12px; padding:10px 12px; text-align:center; font-weight:700; color:#3c3643; box-shadow:var(--shadow)}
+    @media (max-width:900px){ .strip{grid-template-columns:1fr} }
+
+    /* SECTIONS */
+    section{padding:42px 0}
+    .section-head{display:flex; align-items:end; justify-content:space-between; gap:16px; margin-bottom:14px}
+    .section-head h2{margin:0; font-size:1.4rem; color:#2c2533}
+    .sub{margin:0; color:var(--muted)}
     .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
-    @media (max-width: 980px){ .grid{grid-template-columns:repeat(2,1fr)} }
-    @media (max-width: 680px){ .grid{grid-template-columns:1fr} }
-    .card{
-      background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow);
-      transition:transform .15s ease, box-shadow .15s ease;
-    }
-    .card:hover{transform:translateY(-3px); box-shadow:0 16px 32px rgba(23,21,26,.08)}
-    .chip{display:inline-block; padding:3px 10px; border-radius:999px; background:#f3e9f9; color:#5a2770; font-weight:700; font-size:.78rem}
-    .card h3{margin:8px 0 6px; font-size:1.05rem; color:#2a2430}
+    @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:680px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow)}
+    .chip{display:inline-block; padding:4px 10px; border-radius:999px; background:#f2eaf8; color:#5f2a78; font-weight:800; font-size:.78rem}
+    .card h3{margin:8px 0 6px; font-size:1.08rem}
     .muted{color:var(--muted)}
-    /* TABS COMPACTS */
-    .tabs{margin-top:16px; background:transparent}
-    .tab-head{display:flex; gap:8px; flex-wrap:wrap}
-    .tab-btn{
-      appearance:none; border:1px solid var(--line); background:#fff; padding:8px 12px; border-radius:10px; cursor:pointer;
-      font-weight:700; color:#4c3a57; transition:all .2s;
-    }
-    .tab-btn.active{background:var(--brand); color:#fff; border-color:transparent}
-    .tab-pane{display:none; margin-top:12px}
-    .tab-pane.active{display:block}
-    .screenshot{
-      border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); margin-top:12px
-    }
+    .icon{width:22px; height:22px; display:inline-block; margin-right:8px; vertical-align:-4px}
+
     /* PRICING */
-    .pricing{
-      display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:10px
-    }
-    @media (max-width: 780px){ .pricing{grid-template-columns:1fr} }
-    .price-card{
-      background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow)
-    }
+    .pricing{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+    @media (max-width:820px){.pricing{grid-template-columns:1fr}}
+    .price-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow)}
     .price-card.featured{border:2px solid var(--brand)}
-    .price-card h3{margin:0 0 6px}
-    .price{font-size:1.8rem; font-weight:900}
+    .price-card h3{margin:0 0 8px}
+    .price{font-size:2rem; font-weight:900}
     .period{font-weight:600; color:var(--muted)}
-    .strike{text-decoration:line-through; opacity:.55; margin-left:6px}
-    .features{list-style:none; padding:0; margin:10px 0 0}
-    .features li{margin:8px 0; color:#3c3643}
-    .features li::marker{content:""}
-    .tick{color:#11a811; font-weight:900; margin-right:8px}
-    .btn-wide{display:block; text-align:center; margin-top:12px}
+    .strike{text-decoration:line-through; opacity:.5; margin-left:6px}
+    .features{list-style:none; padding:0; margin:14px 0 0}
+    .features li{margin:8px 0}
+    .tick{color:var(--success); font-weight:900; margin-right:8px}
+
+    /* TESTIMONIALS */
+    .testi{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+    @media (max-width:980px){.testi{grid-template-columns:1fr}}
+    .quote{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:var(--shadow)}
+    .quote b{display:block; margin-top:8px}
+
     /* FOOTER */
     footer{border-top:1px solid var(--line); margin-top:28px}
-    .foot{display:flex; align-items:center; gap:10px; height:64px}
+    .foot{display:flex; align-items:center; gap:10px; height:72px}
     .foot small{color:var(--muted)}
-    /* DARK MODE (auto) */
-    @media (prefers-color-scheme: dark){
-      :root{
-        --bg:#110f13; --card:#17141a; --txt:#f6f2fb; --muted:#a79fb1; --line:#2a2430;
-        --shadow:0 8px 28px rgba(0,0,0,.45);
-      }
-      .nav{background:rgba(17,15,19,.7); border-bottom-color:var(--line)}
-      .btn{background:#1d1922; color:#eadef2; border-color:#2a2430}
-      .btn.primary{background:var(--brand)}
-      .pill{background:#17141a; border-color:var(--line); color:#d8cfe3}
-      .screenshot{border-color:#2a2430}
+
+    /* DARK (auto) */
+    @media (prefers-color-scheme:dark){
+      :root{--bg:#100d13; --card:#16131a; --ink:#f4f1f7; --muted:#a9a1b3; --line:#2b2432; --shadow:0 12px 34px rgba(0,0,0,.45)}
+      .nav{background:rgba(16,13,19,.7)}
+      .pill{background:#16131a}
+      .hero-illustration{background:linear-gradient(180deg,#17141b,#120f16)}
+      .btn{background:#1a1720; color:#e8def2; border-color:#2b2432}
+      .btn.primary{background:var(--brand); color:#fff}
     }
   </style>
 </head>
@@ -135,130 +118,131 @@
   <!-- NAV -->
   <div class="nav">
     <div class="container nav-inner">
-      <img src="logo.png" alt="Mindra" class="logo">
+      <img class="logo" src="logo.png" alt="Mindra">
       <div class="brand">Mindra</div>
       <div class="spacer"></div>
-      <a class="btn-mini" href="https://github.com/florianarnau/Mindra" target="_blank">GitHub</a>
+      <a class="link" href="#fonctionnalites">Fonctionnalités</a>
+      <a class="link" href="#tarifs">Tarifs</a>
+      <a class="link" href="#faq">FAQ</a>
+      <a class="btn" href="https://florianarnau-mindra.streamlit.app/" target="_blank">Lancer l’app</a>
     </div>
   </div>
 
-  <!-- HERO (compact) -->
-  <section class="hero container">
-    <h1>L’atelier visuel du Machine Learning</h1>
-    <p class="lead">Explorez, préparez, entraînez et évaluez vos modèles — sans une ligne de code. Une interface Streamlit claire, un pipeline scikit-learn complet.</p>
-    <div class="cta">
-      <a class="btn primary" href="https://florianarnau-mindra.streamlit.app/" target="_blank">🚀 Lancer l’application</a>
-      <a class="btn" href="#tabs">Découvrir</a>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="badge">Nouveau · Interface Streamlit</span>
+      <h1>L’atelier visuel du Machine Learning</h1>
+      <p class="lead">Explorez, préparez, entraînez et évaluez vos modèles — sans coder. Mindra combine la simplicité d’une interface claire et la rigueur d’un pipeline scikit-learn complet.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://florianarnau-mindra.streamlit.app/" target="_blank">🚀 Essayer maintenant</a>
+        <a class="btn" href="https://github.com/florianarnau/Mindra" target="_blank">Voir le code</a>
+      </div>
+      <div class="hero-illustration">
+        <img src="assets/image1.png" alt="Aperçu Mindra">
+      </div>
+
+      <div class="container">
+        <div class="strip">
+          <div class="pill">Préprocessing avancé</div>
+          <div class="pill">4 modèles ML intégrés</div>
+          <div class="pill">Export du pipeline .pkl</div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- MINI STRIP (plus léger que tes “stats”) -->
-  <div class="strip">
-    <div class="pill">4 modèles intégrés</div>
-    <div class="pill">Préprocessing complet</div>
-    <div class="pill">Export du pipeline .pkl</div>
-  </div>
+  <!-- FEATURES -->
+  <section id="fonctionnalites">
+    <div class="container">
+      <div class="section-head">
+        <h2>Ce que vous faites avec Mindra</h2>
+        <p class="sub">De la donnée brute au modèle évalué — en quelques clics.</p>
+      </div>
 
-  <main class="container">
-
-    <!-- FEATURES synthétiques -->
-    <section class="section">
-      <h2>Ce que vous pouvez faire</h2>
-      <p class="sub">De la donnée brute au modèle évalué — en quelques clics.</p>
       <div class="grid">
         <div class="card">
           <span class="chip">Exploration</span>
-          <h3>Visualiser et comprendre</h3>
-          <p class="muted">Aperçu, statistiques, corrélations, distributions et pairplots interactifs (Altair).</p>
+          <h3><span class="icon">📊</span>Comprendre vos données</h3>
+          <p class="muted">Aperçus, statistiques, corrélations, distributions et pairplots interactifs (Altair).</p>
         </div>
         <div class="card">
           <span class="chip">Préparation</span>
-          <h3>Nettoyer et transformer</h3>
-          <p class="muted">Imputation, normalisation, outliers (IQR), encodage, sélection de variables.</p>
+          <h3><span class="icon">🧹</span>Nettoyer & transformer</h3>
+          <p class="muted">Imputation, normalisation, IQR, encodage, sélection de variables. Détection des classes rares & stratification sûre.</p>
         </div>
         <div class="card">
           <span class="chip">Cible numérique</span>
-          <h3>Discrétiser si besoin</h3>
-          <p class="muted">Quantiles (effectifs équilibrés) ou largeur égale (intervalles uniformes), choix du nombre de bins.</p>
+          <h3><span class="icon">🎯</span>Discrétiser intelligemment</h3>
+          <p class="muted">Binning par <b>quantiles</b> (effectifs équilibrés) ou <b>largeur égale</b> (intervalles uniformes). Choix du nombre de <i>bins</i>.</p>
+        </div>
+        <div class="card">
+          <span class="chip">Modélisation</span>
+          <h3><span class="icon">🤖</span>Entraîner en quelques clics</h3>
+          <p class="muted">Régression logistique, Random Forest, KNN, SVM (RBF). Validation croisée (jusqu’à 5 folds).</p>
+        </div>
+        <div class="card">
+          <span class="chip">Évaluation</span>
+          <h3><span class="icon">📈</span>Mesurer & comparer</h3>
+          <p class="muted">Accuracy, Precision, Recall, F1, ROC AUC macro, matrice de confusion, rapport de classification, alerte overfitting.</p>
+        </div>
+        <div class="card">
+          <span class="chip">Déploiement</span>
+          <h3><span class="icon">💾</span>Exporter le pipeline</h3>
+          <p class="muted">Export <b>.pkl</b> complet (préprocess + modèle) pour réutilisation immédiate dans vos scripts Python.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- TABS (compacts) -->
-    <section class="section" id="tabs">
-      <h2>Parcourir l’application</h2>
-      <div class="tab-head">
-        <button class="tab-btn active" data-tab="t1">Traitement</button>
-        <button class="tab-btn" data-tab="t2">Visualisations</button>
-        <button class="tab-btn" data-tab="t3">Modélisation</button>
-        <button class="tab-btn" data-tab="t4">Évaluation</button>
+  <!-- TESTIMONIALS (social proof léger) -->
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <h2>Ils en parlent</h2>
+        <p class="sub">Ce que disent les utilisateurs après leurs premiers modèles.</p>
       </div>
-
-      <div class="tab-pane active" id="t1">
-        <div class="grid">
-          <div class="card">
-            <h3>Préparation maîtrisée</h3>
-            <p class="muted">Imputation (moyenne, médiane), normalisation (Standard/MinMax/Robust), IQR, sélection de features.</p>
-          </div>
-          <div class="card">
-            <h3>Stratification sûre</h3>
-            <p class="muted">Détection des classes rares et stratégie de split adaptée pour éviter les erreurs de validation.</p>
-          </div>
-          <div class="card">
-            <h3>Aperçu instantané</h3>
-            <p class="muted">Tableau, stats, valeurs manquantes — le tout prêt à être modélisé.</p>
-          </div>
+      <div class="testi">
+        <div class="quote">
+          « Mise en route ultra-rapide, j’ai pu comparer 4 algos en 10 minutes. »
+          <b>— Data analyst, retail</b>
         </div>
-        <img class="screenshot" src="assets/image1.png" alt="Traitement des données">
-      </div>
-
-      <div class="tab-pane" id="t2">
-        <div class="grid">
-          <div class="card"><h3>Distributions</h3><p class="muted">Histogrammes par variable, couleurs par classe.</p></div>
-          <div class="card"><h3>Corrélation</h3><p class="muted">Carte thermique pour repérer les variables clés.</p></div>
-          <div class="card"><h3>Pairplot</h3><p class="muted">Scatter matrix interactive pour analyser les relations.</p></div>
+        <div class="quote">
+          « La partie évaluation est limpide, parfaite pour présenter à l’équipe. »
+          <b>— Product manager</b>
         </div>
-        <img class="screenshot" src="assets/image1.png" alt="Visualisations">
-      </div>
-
-      <div class="tab-pane" id="t3">
-        <div class="grid">
-          <div class="card"><h3>Modèles</h3><p class="muted">Régression Logistique, Random Forest, KNN, SVM (RBF).</p></div>
-          <div class="card"><h3>Pipeline</h3><p class="muted">ColumnTransformer + sélecteur (optionnel) + estimateur, exportable en .pkl.</p></div>
-          <div class="card"><h3>Validation</h3><p class="muted">CV jusqu’à 5 folds (autorisée si effectifs suffisants).</p></div>
+        <div class="quote">
+          « Export .pkl nickel, j’ai enchaîné derrière sur un script d’inférence. »
+          <b>— Ingénieur ML</b>
         </div>
-        <img class="screenshot" src="assets/image1.png" alt="Modélisation">
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="tarifs" style="background:linear-gradient(180deg,#fbfaff 0%, #ffffff 100%); border-top:1px solid var(--line); border-bottom:1px solid var(--line)">
+    <div class="container">
+      <div class="section-head">
+        <h2>Tarifs simples</h2>
+        <p class="sub">Commencez gratuitement. Passez à Pro quand vous avez besoin d’aller plus loin.</p>
       </div>
 
-      <div class="tab-pane" id="t4">
-        <div class="grid">
-          <div class="card"><h3>Métriques clés</h3><p class="muted">Accuracy, Precision, Recall, F1, ROC AUC macro.</p></div>
-          <div class="card"><h3>Confusion</h3><p class="muted">Matrice interactive + rapport de classification.</p></div>
-          <div class="card"><h3>Overfitting</h3><p class="muted">Comparaison train/test et alerte si écart significatif.</p></div>
-        </div>
-        <img class="screenshot" src="assets/image1.png" alt="Évaluation">
-      </div>
-    </section>
-
-    <!-- PRICING (sobre et court) -->
-    <section class="section">
-      <h2>Tarifs</h2>
-      <p class="sub">Commencez gratuitement. Passez à Pro si vous avez besoin d’aller plus loin.</p>
       <div class="pricing">
         <div class="price-card">
           <h3>Gratuit</h3>
           <div class="price">0€ <span class="period">/ utilisateur</span></div>
           <ul class="features">
             <li><span class="tick">✓</span> Exploration & visualisations</li>
-            <li><span class="tick">✓</span> Préprocessing complet</li>
+            <li><span class="tick">✓</span> Préprocessing avancé</li>
             <li><span class="tick">✓</span> 4 modèles ML</li>
             <li><span class="tick">✓</span> Validation croisée</li>
             <li><span class="tick">✓</span> Export pipeline .pkl</li>
           </ul>
-          <a class="btn-wide btn" href="https://florianarnau-mindra.streamlit.app/" target="_blank">Utiliser maintenant</a>
+          <a class="btn" style="margin-top:14px" href="https://florianarnau-mindra.streamlit.app/" target="_blank">Utiliser maintenant</a>
         </div>
+
         <div class="price-card featured">
-          <h3>Pro <small style="margin-left:6px;color:var(--muted)">bientôt</small></h3>
+          <h3>Pro <span style="margin-left:6px; color:var(--muted); font-size:.9rem">bientôt</span></h3>
           <div class="price">9€ <span class="strike">19€</span> <span class="period">/ utilisateur</span></div>
           <ul class="features">
             <li><span class="tick">✓</span> AutoCV & recherche d’hyperparamètres</li>
@@ -267,34 +251,43 @@
             <li><span class="tick">✓</span> Presets & projets</li>
             <li><span class="tick">✓</span> Support prioritaire</li>
           </ul>
-          <a class="btn-wide btn primary" href="mailto:contact@exemple.com">Être notifié</a>
+          <a class="btn primary" style="margin-top:14px" href="mailto:contact@exemple.com">Être notifié</a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-head">
+        <h2>FAQ</h2>
+        <p class="sub">Les réponses aux questions les plus fréquentes.</p>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <h3>GitHub Pages héberge l’app ?</h3>
+          <p class="muted">Non, cette page est une vitrine statique. L’application tourne sur Streamlit Cloud.</p>
+        </div>
+        <div class="card">
+          <h3>Jeux de données compatibles ?</h3>
+          <p class="muted">Tout CSV avec une colonne cible (catégorielle ou numérique si vous activez la discrétisation).</p>
+        </div>
+        <div class="card">
+          <h3>Puis-je étendre les modèles ?</h3>
+          <p class="muted">Oui. Le code est open-source et basé sur des pipelines scikit-learn standards.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- FOOTER -->
   <footer>
     <div class="container foot">
-      <img src="logo.png" alt="Mindra" class="logo">
-      <small>© 2025 Mindra — Développé par Florian Arnau • Licence MIT</small>
+      <img class="logo" src="logo.png" alt="Mindra">
+      <small>© 2025 Mindra — Développé par Florian Arnau · <a href="https://github.com/florianarnau/Mindra" target="_blank">GitHub</a></small>
     </div>
   </footer>
 
-  <script>
-    // Tabs
-    const btns = document.querySelectorAll('.tab-btn');
-    const panes = document.querySelectorAll('.tab-pane');
-    btns.forEach(b=>{
-      b.addEventListener('click', ()=>{
-        btns.forEach(x=>x.classList.remove('active'));
-        panes.forEach(p=>p.classList.remove('active'));
-        b.classList.add('active');
-        document.getElementById(b.dataset.tab).classList.add('active');
-        // Scroll léger sur mobile
-        document.getElementById('tabs').scrollIntoView({behavior:'smooth', block:'start'});
-      });
-    });
-  </script>
 </body>
 </html>
